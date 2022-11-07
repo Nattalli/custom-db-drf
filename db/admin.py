@@ -29,29 +29,5 @@ class TableAdmin(admin.ModelAdmin):
     inlines = [ColumnAdmin]
 
 
-# @admin.register(Company)
-# class CompanyAdmin(admin.ModelAdmin):
-#     list_display = ("name", "url", "email", "phone")
-#     list_filter = ("categories__name", )
-#     search_fields = ("name", "email")
-#     list_display_links = ("url", "name")
-#     fieldsets = [
-#         ('Main information', {'fields': ['logo', 'name', 'url', 'address', 'email', 'phone', 'description', 'categories']}),
-#         ('Media', {'fields': ('image1', 'image2', 'image3', 'image4', 'video', 'video_url')}),
-#         # ('Video', {'fields': }),
-#     ]
-#
-#
-# @admin.register(CategoryBlock)
-# class CompanyAdmin(admin.ModelAdmin):
-#     search_fields = ("name", )
-#
-#
-# @admin.register(Partner)
-# class PartnerAdmin(admin.ModelAdmin):
-#     fieldsets = [
-#         (None, {'fields': ('url', 'logo')})
-#     ]
-
 admin.site.unregister(Group)
 admin.site.unregister(User)
