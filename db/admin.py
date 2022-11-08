@@ -10,7 +10,7 @@ admin.site.register(Column)
 
 class RowValueAdmin(admin.StackedInline):
     model = RowValue
-    extra = 10
+    extra = 3
 
 
 class ColumnAdmin(admin.StackedInline):

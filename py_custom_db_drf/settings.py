@@ -10,13 +10,15 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'jazzmin',
-
+    'django_restful_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+
     "db"
 ]
 
@@ -92,6 +94,8 @@ JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": "Custom db Admin",
 
+    "show_ui_builder": False,
+
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_header": "Custom db",
 
@@ -122,9 +126,9 @@ JAZZMIN_SETTINGS = {
     # Whether to aut expand the menu
     "navigation_expanded": True,
 
-    "changeform_format": "carousel",
+    "changeform_format": "collapsible",
 
-    "copyright": "Custom db. All Rights Reserved. Made by <a target='_blank' href='https://github.com/Nattalli'>Nataliia Zakharchuk</a>"
+    "copyright": "Custom db. Made by <a target='_blank' href='https://github.com/Nattalli'>Nataliia Zakharchuk</a>"
 }
 
 
@@ -133,15 +137,15 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-light bg-light",
-    "accent": "accent-Cyan",
-    "navbar": "navbar-expand-lg navbar-light bg-light",
+    "brand_colour": False,
+    "accent": "accent-lightblue",
+    "navbar": "navbar-light",
     "no_navbar_border": False,
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-light-Cyan",
+    "sidebar": "sidebar-dark-lightblue",
     "sidebar_nav_small_text": True,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,
@@ -153,10 +157,18 @@ JAZZMIN_UI_TWEAKS = {
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",
-        "info": "btn-info",
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success"
+        "info": "btn-outline-info",
+        "warning": "btn-outline-warning",
+        "danger": "btn-outline-danger",
+        "success": "btn-outline-success"
     }
 }
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'py_custom_db_drf.pagination.NewPagination',
+    'PAGE_SIZE': 10,
+}
