@@ -7,10 +7,34 @@ from .views import (
     DatabaseCreateView,
     DatabaseRUDView,
     TableListView,
+    TableCreateView,
+    TableRUDView,
+    ColumnListView,
+    ColumnCreatView,
+    ColumnRUDView,
+    RowListView,
+    RowRUDView,
+    RowCreateView
 )
 
+row_api = [
+    path("row/", RowListView.as_view(), name="row-list"),
+    path("row/create/", RowCreateView.as_view(), name="row-create"),
+    path("row/<int:pk>/", RowRUDView.as_view(), name="row-rud"),
+]
+
+column_api = [
+    path("column/", ColumnListView.as_view(), name="column-list"),
+    path("column/create/", ColumnCreatView.as_view(), name="column-create"),
+    path("column/<int:pk>/", ColumnRUDView.as_view(), name="column-rud"),
+]
+
 table_api = [
-    path("table/", TableListView.as_view(), name="column-list")
+    path("table/", TableListView.as_view(), name="table-list"),
+    path("table/create/", TableCreateView.as_view(), name="table-create"),
+    path("table/<int:pk>/", TableRUDView.as_view(), name="table-rud"),
+    path("table/<int:table_pk>/", include(column_api)),
+    path("table/<int:table_pk>/", include(row_api))
 ]
 
 database_api = [
