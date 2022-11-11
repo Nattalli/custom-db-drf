@@ -11,6 +11,7 @@ from .views import (
     TableRUDView,
     ColumnListView,
     ColumnCreatView,
+    ColumnSwapView,
     ColumnRUDView,
     RowListView,
     RowRUDView,
@@ -26,6 +27,7 @@ row_api = [
 column_api = [
     path("column/", ColumnListView.as_view(), name="column-list"),
     path("column/create/", ColumnCreatView.as_view(), name="column-create"),
+    path("column/swap/", ColumnSwapView.as_view(), name="column-swap"),
     path("column/<int:pk>/", ColumnRUDView.as_view(), name="column-rud"),
 ]
 

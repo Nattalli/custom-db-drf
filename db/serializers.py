@@ -46,6 +46,11 @@ class ColumnSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ColumnSwapSerializer(serializers.Serializer):
+    pk = serializers.IntegerField()
+    name = serializers.CharField(max_length=255)
+
+
 class ColumnCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
