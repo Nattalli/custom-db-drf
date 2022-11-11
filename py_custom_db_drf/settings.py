@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
 
-    "db"
+    "db",
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -171,4 +172,23 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'py_custom_db_drf.pagination.NewPagination',
     'PAGE_SIZE': 10,
+}
+
+
+Q_CLUSTER = {
+    'name': 'redis_custom_db',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'orm': 'default',
+    'label': 'Redis',
+    'redis': {
+        'host': '127.0.0.1',
+        'port': 6379,
+        'db': 0,
+    }
 }

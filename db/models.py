@@ -45,6 +45,9 @@ class Table(models.Model):
     database = models.ForeignKey(Database, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, unique=True)
 
+    def __repr__(self):
+        return self.name
+
     def __str__(self) -> str:
         return f"{self.name}: {[[type_[1] for type_ in COLUMN_TYPES if type_[0]==column.type][0] for column in Column.objects.filter(db__id=self.id)]}"
 
@@ -65,3 +68,13 @@ class Row(models.Model):
 class RowValue(models.Model):
     row = models.ForeignKey(Row, on_delete=models.CASCADE)
     value = models.TextField()
+
+
+class StatisticInfo(models.Model):
+    time = models.DateTimeField(auto_now_add=True)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    row_amount = models.IntegerField()
+    column_amount = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.table.name} {self.time}"
