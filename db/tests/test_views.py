@@ -1,8 +1,50 @@
+import json
+from django import test
+from mock import MagicMock
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-import json
+from mock import patch
+from django_mock_queries.query import MockSet, MockModel
+from django.contrib.auth.backends import ModelBackend
 from db.models import Manager, Database, Table, Column, Row, RowValue
+
+
+def active_users():
+    return get_user_model().objects.filter(is_active=True)
+
+
+class TestApi(TestCase):
+    users = MockSet()
+    user_objects = patch('django.contrib.auth.models.User.objects', users)
+
+    @user_objects
+    def test_api_active_users_filters_by_is_active_true(self):
+        self.users.add(
+            MockModel(mock_name='active user', is_active=True),
+            MockModel(mock_name='inactive user', is_active=False)
+        )
+
+        for user in active_users():
+            assert user.is_active
+
+
+class BackendsTests(test.TestCase):
+
+    def setUp(self):
+        self.backend = ModelBackend()
+        self.username = "Test"
+        self.password = "zal;ksmdasklmd"
+
+    def test_authenticate_using_email_and_phone_number(self):
+        user = get_user_model().objects.create_user(
+            username=self.username,
+            password=self.password,
+            is_active=True,
+        )
+
+        self.assertTrue(self.backend.user_can_authenticate(user))
+        self.assertFalse(self.backend.user_can_authenticate(MagicMock(is_active=False)))
 
 
 class TestManagerUrls(TestCase):
@@ -13,6 +55,13 @@ class TestManagerUrls(TestCase):
         )
         Manager.objects.create(name="First")
         Manager.objects.create(name="Second")
+
+    @patch('db.views.ManagerListView')
+    def test_manager_list_response(self, mock_get):
+        mock_get.return_value = [{"id": 2, "name": "Second"}, {"id": 1, "name": "First"}]
+        url = reverse("db:managers-list")
+        response = self.client.get(url)
+        self.assertEqual(response.data["results"], mock_get.return_value)
 
     def test_manager_list_and_pagination(self) -> None:
         url = reverse("db:managers-list")
